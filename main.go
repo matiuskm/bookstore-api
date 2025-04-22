@@ -4,6 +4,7 @@ import (
 	"bookstore-api/database"
 	"bookstore-api/handlers"
 	"bookstore-api/middlewares"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -37,7 +38,10 @@ func main() {
 	wishlist.GET("/", handlers.GetWishlist)
 	wishlist.DELETE("/:bookId", handlers.RemoveFromWishlist)
 
-
 	// run server
-	r.Run(":8080")
+	port := os.Getenv("PORT") // Biar bisa ambil port dari Render
+	if port == "" {
+		port = "8080" // fallback local
+	}
+	r.Run(":" + port)
 }
