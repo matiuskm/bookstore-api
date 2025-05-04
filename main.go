@@ -38,6 +38,12 @@ func main() {
 	wishlist.GET("/", handlers.GetWishlist)
 	wishlist.DELETE("/:bookId", handlers.RemoveFromWishlist)
 
+	cart := r.Group("/cart")
+	cart.Use(middlewares.JWTAuthMiddleware())
+	cart.POST("", handlers.AddToCart)
+	cart.GET("", handlers.GetCart)
+	cart.DELETE("/:id", handlers.RemoveFromCart)
+
 	// run server
 	port := os.Getenv("PORT") // Biar bisa ambil port dari Render
 	if port == "" {
